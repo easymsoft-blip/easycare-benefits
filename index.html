@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>센터장·종사자 국가지원금 총정리 | 이지케어</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #F0F2F5;
+  color: #1A2B4A;
+  min-height: 100vh;
+}
+
+/* ── 레이아웃 ── */
+.page-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 16px 60px;
+  align-items: flex-start;
+}
+
+/* ── 사이드 배너 ── */
+.side-banner {
+  width: 160px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.banner-slot {
+  width: 160px;
+  height: 600px;
+  background: #ffffff;
+  border: 1.5px dashed #C8D3DF;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #A0B0C0;
+  font-size: 12px;
+  text-align: center;
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.banner-slot:hover { border-color: #00B5A3; color: #00B5A3; }
+.banner-slot .slot-icon { font-size: 28px; opacity: 0.5; }
+.banner-slot .slot-size { font-size: 11px; font-weight: 700; color: #C8D3DF; }
+
+/* ── 메인 콘텐츠 ── */
+.main-content {
+  flex: 1;
+  max-width: 720px;
+  min-width: 0;
+}
+
+/* ── 상단 헤더 ── */
+.post-header {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin-bottom: 14px;
+  border: 1px solid #E8EDF2;
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.brand-logo {
+  width: 28px; height: 28px;
+  background: #008F80;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  color: white;
+  font-weight: 900;
+}
+.brand-name { font-size: 13px; font-weight: 700; color: #008F80; }
+.brand-sep { color: #C8D3DF; font-size: 12px; }
+.brand-section { font-size: 12px; color: #8A9BB0; }
+
+.post-title {
+  font-size: 22px;
+  font-weight: 900;
+  color: #1A2B4A;
+  letter-spacing: -0.5px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+.post-meta {
+  font-size: 12px;
+  color: #8A9BB0;
+  display: flex;
+  gap: 14px;
+}
+.post-meta span::before { content: ''; }
+
+/* ── 탭 ── */
+.tab-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.tab-btn {
+  flex: 1;
+  padding: 13px 0;
+  border-radius: 12px;
+  border: 1.5px solid #E2ECF0;
+  background: white;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #8A9BB0;
+  font-family: inherit;
+  transition: all 0.18s;
+  letter-spacing: -0.3px;
+}
+.tab-btn:hover { border-color: #00B5A3; color: #008F80; }
+.tab-btn.active-dir { background: #1A2B4A; border-color: #1A2B4A; color: white; }
+.tab-btn.active-wkr { background: #008F80; border-color: #008F80; color: white; }
+
+/* ── 섹션 ── */
+.section { display: none; }
+.section.visible { display: block; }
+
+/* ── 인트로 박스 ── */
+.intro-box {
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+.intro-box.blue { background: #EBF4FD; border: 1px solid #BDD8F5; color: #1A5FA0; }
+.intro-box.teal { background: #E4F7F3; border: 1px solid #9FE1CB; color: #096B55; }
+
+/* ── 카드 ── */
+.card {
+  background: white;
+  border: 1px solid #E8EDF2;
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  transition: box-shadow 0.2s;
+}
+.card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.card-num {
+  width: 30px; height: 30px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 900;
+  flex-shrink: 0;
+  color: white;
+}
+.card-title { font-size: 15px; font-weight: 700; color: #1A2B4A; flex: 1; letter-spacing: -0.3px; }
+.card-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.card-desc {
+  font-size: 13.5px;
+  color: #4A5568;
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.card-desc b { font-weight: 700; color: #1A2B4A; }
+
+/* ── 테이블 ── */
+.tbl-wrap {
+  border: 1px solid #E2ECF0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  background: #F5F8FA;
+  color: #6B7A8D;
+  font-weight: 700;
+  padding: 9px 14px;
+  text-align: left;
+  border-bottom: 1px solid #E2ECF0;
+  font-size: 12px;
+}
+td {
+  padding: 9px 14px;
+  color: #1A2B4A;
+  border-bottom: 1px solid #F0F4F8;
+  font-size: 13px;
+}
+tr:last-child td { border-bottom: none; }
+.hl-blue { font-weight: 700; color: #185FA5; }
+.hl-teal { font-weight: 700; color: #008F80; }
+
+/* ── 신청 버튼 ── */
+.apply-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.apply-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: all 0.18s;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+.apply-btn.primary {
+  background: #008F80;
+  color: white;
+}
+.apply-btn.primary:hover { background: #007068; transform: translateY(-1px); }
+.apply-btn.secondary {
+  background: #F0F4F8;
+  color: #1A2B4A;
+  border: 1px solid #D8E2EE;
+}
+.apply-btn.secondary:hover { background: #E4EEF7; transform: translateY(-1px); }
+.apply-btn.navy {
+  background: #1A2B4A;
+  color: white;
+}
+.apply-btn.navy:hover { background: #243660; transform: translateY(-1px); }
+.btn-arrow { font-size: 13px; }
+
+/* ── 태그 ── */
+.tag {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+/* ── 경고 박스 ── */
+.notice {
+  background: #FFFBEB;
+  border: 1px solid #F5D76E;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #7A5A00;
+  line-height: 1.8;
+}
+.notice b { font-weight: 700; }
+
+/* ── 반응형 ── */
+@media (max-width: 900px) {
+  .side-banner { display: none; }
+}
+@media (max-width: 600px) {
+  .post-title { font-size: 18px; }
+  .page-wrap { padding: 16px 12px 40px; }
+  .post-header { padding: 18px; }
+  .card { padding: 16px; }
+  .apply-btn { font-size: 12px; padding: 8px 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- 왼쪽 배너 -->
+  <div class="side-banner">
+    <div class="banner-slot">
+      <div class="slot-icon">📢</div>
+      <div>광고 영역</div>
+      <div class="slot-size">160 × 600px</div>
+    </div>
+  </div>
+
+  <!-- 메인 콘텐츠 -->
+  <div class="main-content">
+
+    <!-- 헤더 -->
+    <div class="post-header">
+      <div class="brand-row">
+        <div class="brand-logo">E</div>
+        <span class="brand-name">이지케어</span>
+        <span class="brand-sep">|</span>
+        <span class="brand-section">기관 운영 정보</span>
+      </div>
+      <div class="post-title">센터장 · 종사자별 국가 지원금 총정리<br>(2026년 최신 기준)</div>
+      <div class="post-meta">
+        <span>2026.03.30</span>
+        <span>방문요양 · 주간보호 기관 대상</span>
+      </div>
+    </div>
+
+    <!-- 탭 -->
+    <div class="tab-row">
+      <button class="tab-btn active-dir" onclick="show('dir')">🏢 &nbsp;센터장 (기관 운영자)</button>
+      <button class="tab-btn" id="wkr-tab" onclick="show('wkr')">👤 &nbsp;종사자 (요양보호사 등)</button>
+    </div>
+
+    <!-- ════════ 센터장 ════════ -->
+    <div class="section visible" id="sec-dir">
+
+      <div class="intro-box blue">
+        기관을 운영하는 센터장이 <b>직접 신청·수령</b>할 수 있는 고용 보조금 및 운영 지원 제도입니다.<br>
+        각 항목 하단의 <b>신청 바로가기</b> 버튼을 통해 신청 페이지로 이동하세요.
+      </div>
+
+      <!-- 두루누리 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num" style="background:#1A2B4A;">1</div>
+          <div class="card-title">두루누리 사회보험료 지원</div>
+          <div class="card-badge" style="background:#EEF2FF;color:#3C3489;">10인 미만 기관</div>
+        </div>
+        <div class="card-desc">
+          10인 미만 소규모 기관의 사업주가 신청합니다. 월평균 보수 <b>270만 원 미만 신규 근로자</b>의 고용보험·국민연금 보험료를 최대 <b>36개월간 80% 지원</b>받을 수 있습니다.
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>항목</th><th>사업주 지원액</th><th>근로자 지원액</th></tr>
+            <tr><td>고용보험료</td><td class="hl-blue">월 최대 24,820원</td><td class="hl-blue">월 최대 19,430원</td></tr>
+            <tr><td>국민연금</td><td class="hl-blue">월 최대 97,160원</td><td class="hl-blue">월 최대 97,160원</td></tr>
+            <tr><td>합계 (1인당)</td><td class="hl-blue" style="font-size:13.5px;">월 최대 121,980원</td><td class="hl-blue" style="font-size:13.5px;">월 최대 121,980원</td></tr>
+          </table>
+        </div>
+        <div class="apply-row">
+          <a href="https://www.4insure.or.kr" target="_blank" class="apply-btn primary">
+            신청 바로가기 <span class="btn-arrow">→</span>
+          </a>
+          <a href="http://insurancesupport.or.kr" target="_blank" class="apply-btn secondary">
+            두루누리 공식 사이트 <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 고용장려금 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num" style="background:#3C3489;">2</div>
+          <div class="card-title">고용창출·고용안정 장려금</div>
+          <div class="card-badge" style="background:#EEEDFE;color:#3C3489;">고용노동부</div>
+        </div>
+        <div class="card-desc">
+          신규 요양보호사 채용 시 <b>고용창출장려금</b>을 신청할 수 있습니다. 시간선택제·유연근무제 도입 시 <b>고용안정장려금</b>도 별도 지원됩니다. 지원 금액은 채용 유형 및 조건에 따라 달라집니다.
+        </div>
+        <div class="apply-row">
+          <a href="https://www.work24.go.kr/cm/c/f/1100/selecSystList.do?systClId=SC00000044" target="_blank" class="apply-btn primary">
+            고용24 신청 바로가기 <span class="btn-arrow">→</span>
+          </a>
+          <a href="tel:1350" class="apply-btn secondary">
+            📞 고용노동부 1350
+          </a>
+        </div>
+      </div>
+
+      <!-- 시설기능보강 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num" style="background:#854F0B;">3</div>
+          <div class="card-title">노인요양시설 기능 보강 사업</div>
+          <div class="card-badge" style="background:#FAEEDA;color:#854F0B;">지자체 신청</div>
+        </div>
+        <div class="card-desc">
+          시·군·구청을 통해 <b>시설 개보수, 장비 구입 비용</b> 일부를 지원받을 수 있습니다. 지역별로 예산과 선정 기준이 다르므로 반드시 관할 지자체에 직접 문의가 필요합니다.
+        </div>
+        <div class="apply-row">
+          <a href="https://www.gov.kr/portal/rcvfvrSvc/dtlEx/474000000029" target="_blank" class="apply-btn primary">
+            정부24 신청 안내 <span class="btn-arrow">→</span>
+          </a>
+          <a href="tel:129" class="apply-btn secondary">
+            📞 보건복지부 129
+          </a>
+        </div>
+      </div>
+
+      <!-- 단기보호 신설 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num" style="background:#993C1D;">4</div>
+          <div class="card-title">주야간보호 내 단기보호 제도화</div>
+          <div class="card-badge" style="background:#FAECE7;color:#993C1D;">2026년 신설</div>
+        </div>
+        <div class="card-desc">
+          2026년부터 주야간보호기관에서 <b>24시간 단기보호 서비스를 제공</b>할 수 있게 됩니다. 보호자 휴가·출장 시 추가 이용 수요를 기관 수입으로 연결할 수 있습니다.<br><br>
+          정원별 1일 4~8명 범위 내 운영 가능 · 야간 요양보호사 1인 배치 필요
+        </div>
+        <div class="apply-row">
+          <a href="https://www.nhis.or.kr/nhis/index.do" target="_blank" class="apply-btn primary">
+            국민건강보험공단 <span class="btn-arrow">→</span>
+          </a>
+          <a href="tel:1577-1000" class="apply-btn secondary">
+            📞 공단 1577-1000
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ════════ 종사자 ════════ -->
+    <div class="section" id="sec-wkr">
+
+      <div class="intro-box teal">
+        요양보호사, 사회복지사, 간호(조무)사 등 <b>기관 종사자가 직접 받을 수 있는</b> 수당 및 처우 지원입니다.
+      </div>
+
+      <!-- 장기근속장려금 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num" style="background:#008F80;">1</div>
+          <div class="card-title">장기근속장려금</div>
+          <div class="card-badge" style="background:#E4F7F3;color:#096B55;">2026년 대폭 확대</div>
+        </div>
+        <div class="card-desc">
+          2026년부터 지급 대상이 <b>근속 1년 이상</b>으로 확대되었습니다. 수혜 비율이 14.9% → 37.6%로 증가해 훨씬 많은 종사자가 받을 수 있게 됩니다.
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>근속 기간</th><th>월 지원금</th></tr>
+            <tr><td>1년 이상 ~ 3년 미만</td><td class="hl-teal">월 5만원 (2026 신설)</td></tr>
+            <tr><td>3년 이상 ~ 5년 미만</td><td>월 6만원</td></tr>
+            <tr><td>5년 이상 ~ 7년 미만</td><td>월 8~10만원</td></tr>
+            <tr><td>7년 이상</td><td class="hl-teal">월 최대 18만원</td></tr>
+          </table>
+        </div>
+        <div class="apply-row">
+          <a href="https://www.nhis.or.kr/nhis/index.do" target="_blank" class="apply-btn primary">
+            국민건강보험공단 <span class="btn-arrow">→</span>
+          </a>
+          <a href="tel:1577-1000" class="apply-btn secondary">
+            📞 공단 1577-1000
+          </a>
+        </div>
+      </div>
+
+      <!-- 선임 요양보호사 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num" style="background:#185FA5;">2</div>
+          <div class="card-title">선임 요양보호사 수당</div>
+          <div class="card-badge" style="background:#E6F1FB;color:#185FA5;">5년 이상 + 교육 이수</div>
+        </div>
+        <div class="card-desc">
+          <b>5년 이상 근무</b> + 승급교육 <b>40시간 이수</b> 시 '선임 요양보호사'로 지정되어 수당을 받습니다.<br>
+          2026년 지정 대상이 3,600명 → 약 <b>6,500명</b>으로 확대됩니다.
+        </div>
+        <div class="tag" style="background:#E6F1FB;color:#185FA5;">월 15만원 지급</div>
+        <div class="apply-row" style="margin-top:12px;">
+          <a href="https://www.nhis.or.kr/nhis/index.do" target="_blank" class="apply-btn primary">
+            국민건강보험공단 <span class="btn-arrow">→</span>
+          </a>
+          <a href="tel:1577-1000" class="apply-btn secondary">
+            📞 공단 1577-1000
+          </a>
+        </div>
+      </div>
+
+      <!-- 농어촌 지원금 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num" style="background:#854F0B;">3</div>
+          <div class="card-title">농어촌 지역 장기요양요원 지원금</div>
+          <div class="card-badge" style="background:#FAEEDA;color:#854F0B;">2026년 신설</div>
+        </div>
+        <div class="card-desc">
+          인력수급취약지역 근무 종사자(요양보호사·사회복지사·간호(조무)사·치료사)에게 지급됩니다.
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>기관 유형</th><th>최소 근무 조건</th><th>지원금</th></tr>
+            <tr><td>입소형</td><td>월 120시간 이상</td><td class="hl-teal">월 5만원</td></tr>
+            <tr><td>방문형</td><td>월 60시간 이상</td><td class="hl-teal">월 5만원</td></tr>
+          </table>
+        </div>
+        <div class="apply-row">
+          <a href="https://www.nhis.or.kr/nhis/index.do" target="_blank" class="apply-btn primary">
+            국민건강보험공단 <span class="btn-arrow">→</span>
+          </a>
+          <a href="tel:1577-1000" class="apply-btn secondary">
+            📞 공단 1577-1000
+          </a>
+        </div>
+      </div>
+
+      <!-- 두루누리 근로자 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num" style="background:#3C3489;">4</div>
+          <div class="card-title">두루누리 사회보험료 지원 (근로자)</div>
+          <div class="card-badge" style="background:#EEEDFE;color:#3C3489;">10인 미만 기관</div>
+        </div>
+        <div class="card-desc">
+          10인 미만 기관 소속, 월 평균 보수 <b>270만 원 미만 신규 근로자</b>라면 본인 부담 고용보험·국민연금 보험료를 최대 <b>36개월간 80% 지원</b>받을 수 있습니다.
+        </div>
+        <div class="tag" style="background:#EEEDFE;color:#3C3489;">근로자 1인 월 최대 121,980원 지원</div>
+        <div class="apply-row" style="margin-top:12px;">
+          <a href="https://www.4insure.or.kr" target="_blank" class="apply-btn primary">
+            4대보험 정보연계센터 <span class="btn-arrow">→</span>
+          </a>
+          <a href="http://insurancesupport.or.kr" target="_blank" class="apply-btn secondary">
+            두루누리 공식 사이트 <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 2026 처우개선 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-num" style="background:#3B6D11;">5</div>
+          <div class="card-title">2026년 처우 개선 — 새롭게 달라진 것들</div>
+          <div class="card-badge" style="background:#EAF3DE;color:#3B6D11;">2026 변경</div>
+        </div>
+        <div class="card-desc">
+          공무원 보수 인상률과 동일하게 <b>기본급 3.5% 인상</b>이 적용되며, 아래 제도가 새롭게 시행됩니다.
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <tr><th>항목</th><th>내용</th></tr>
+            <tr><td>유급병가</td><td>연 최소 30일 이상 유급병가 신설</td></tr>
+            <tr><td>야간근로수당</td><td>연장·야간·휴일 수당 세분화 및 가산 명확화</td></tr>
+            <tr><td>가족수당</td><td>자녀 가족수당 인상</td></tr>
+            <tr><td>통상임금</td><td>명절휴가비 포함 → 시간외 수당 증가</td></tr>
+          </table>
+        </div>
+        <div class="tag" style="background:#EAF3DE;color:#3B6D11;">근속 7년 기준 기본급 외 월 최대 38만원 수당 가능</div>
+        <div class="apply-row" style="margin-top:12px;">
+          <a href="https://www.mohw.go.kr" target="_blank" class="apply-btn navy">
+            보건복지부 바로가기 <span class="btn-arrow">→</span>
+          </a>
+          <a href="tel:129" class="apply-btn secondary">
+            📞 복지부 129
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 주의사항 -->
+    <div class="notice">
+      ⚠️ 지원 금액과 조건은 매년 변경될 수 있습니다. 신청 전 반드시 최신 정보를 확인하세요.<br>
+      <b>국민건강보험공단 1577-1000</b> · <b>보건복지부 129</b> · <b>고용노동부 1350</b>
+    </div>
+
+  </div>
+
+  <!-- 오른쪽 배너 -->
+  <div class="side-banner">
+    <div class="banner-slot">
+      <div class="slot-icon">📢</div>
+      <div>광고 영역</div>
+      <div class="slot-size">160 × 600px</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function show(tab) {
+  document.getElementById('sec-dir').classList.toggle('visible', tab === 'dir');
+  document.getElementById('sec-wkr').classList.toggle('visible', tab === 'wkr');
+  const d = document.querySelector('[onclick="show(\'dir\')"]');
+  const w = document.querySelector('[onclick="show(\'wkr\')"]');
+  d.className = 'tab-btn' + (tab === 'dir' ? ' active-dir' : '');
+  w.className = 'tab-btn' + (tab === 'wkr' ? ' active-wkr' : '');
+}
+</script>
+</body>
+</html>
